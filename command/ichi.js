@@ -79,7 +79,34 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includes(m.sender) : false
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
-
+const fvn = {key: {participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})},message: { "audioMessage": {"mimetype":"audio/ogg; codecs=opus","seconds":359996400,"ptt": "true"}} } 
+const fakestatus = (teks) => {
+            ichi.sendMessage(from, teks, text, {
+                quoted: {
+                    key: {
+                        fromMe: false,
+                        participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})
+                    },
+                    message: {
+                        "imageMessage": {
+                            "url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
+                            "mimetype": "image/jpeg",
+                            "caption": "SesillaBot",
+                            "fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
+                            "fileLength": "28777",
+                            "height": 1080,
+                            "width": 1079,
+                            "mediaKey": "vXmRR7ZUeDWjXy5iQk17TrowBzuwRya0errAFnXxbGc=",
+                            "fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
+                            "directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
+                            "mediaKeyTimestamp": "1610993486",
+                            "jpegThumbnail": fs.readFileSync('./stik/ppfake.jpeg'),
+                            "scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
+                        }
+                    }
+                }
+            })
+        }
 
 const reply = (texto) => {
 			ichi.sendMessage(m.chat, { text: texto, mentions: [m.sender] }, {	quoted: m })
@@ -146,102 +173,78 @@ switch(command) {
 
 case 'menu': case 'help': case '?': {
   let menu = `
-╔════════
-╠══ *OWNER MENU*
-╠ ${prefix}bc
-╠ ${prefix}bcgc
-╠ ${prefix}join
-╠ ${prefix}leave
-╠ ${prefix}block
-╠ ${prefix}unblock
-╠ ${prefix}setppbot
-╠ ${prefix}self
-╠ ${prefix}public
-╠ ${prefix}eval
-╚════════
-  
-╔════════
-╠══ *GROUP MENU*
-╠ ${prefix}antilink
-╠ ${prefix}linkgroup
-╠ ${prefix}revoke
-╠ ${prefix}kick
-╠ ${prefix}add
-╠ ${prefix}promote
-╠ ${prefix}demote
-╠ ${prefix}setname
-╠ ${prefix}setdesk
-╠ ${prefix}setppgrup
-╠ ${prefix}tagall
-╠ ${prefix}hidetag
-╠ ${prefix}ephemeral
-╚════════
-  
-╔════════
-╠══ *MAKER MENU*
-╠ ${prefix}sticker
-╠ ${prefix}toimg
-╠ ${prefix}tovideo
-╠ ${prefix}toaudio
-╠ ${prefix}tomp3
-╠ ${prefix}tovn
-╠ ${prefix}togif
-╠ ${prefix}tourl
-╠ ${prefix}removebg
-╠ ${prefix}estetik
-╠ ${prefix}ktpmaker
-╚════════
-
-╔════════
-╠══ *RANDOM MENU*
-╠ ${prefix}pinterest
-╠ ${prefix}wallpaper
-╠ ${prefix}quotesanime
-╠ ${prefix}wikimedia
-╚════════
-
-╔════════
-╠══ *OTHER MENU*
-╠ ${prefix}delete
-╠ ${prefix}donasi
-╠ ${prefix}sewa
-╠ ${prefix}sc
-╠ ${prefix}owner
-╠ ${prefix}ping
-╠ ${prefix}menu / ${prefix}help / ${prefix}?
-╚════════
-
-╔════════
-╠══ *DOWNLOAD MENU*
-╠ ${prefix}play
-╠ ${prefix}yts
-╠ ${prefix}ytmp3
-╠ ${prefix}ytmp4
-╚════════
+╒═══ 《 *SesillaNBL* 》 ═══
+├────────────────────
+├≽ *Creator : SesillaNbl*
+├≽ *Name : ${pushname}*
+├≽ *Prefix : 「 ${prefix} 」*
+├≽ *User : @${m.sender.split("@")[0]}*
+├────────────────────
+╞═══ 《 *GROUP MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}antilink*
+├≽ *${prefix}linkgroup*
+├≽ *${prefix}kick*
+├≽ *${prefix}hidetag*
+├≽ *${prefix}tagall*
+├≽ *${prefix}promote*
+├≽ *${prefix}ephemeral*
+├≽ *${prefix}demote*
+├≽ *${prefix}remove*
+├≽ *${prefix}add*
+├≽ *${prefix}setppgrup*
+├────────────────────
+╞═══ 《 *HOSTING MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}addpackage<user/pack*
+├≽ *${prefix}listdomain*
+├≽ *${prefix}domain*
+├≽ *${prefix}sistemmenu*
+├≽ *${prefix}gabutmenu*
+├────────────────────
+╞═══ 《 *DOWNLOADER MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}stickermenu*
+├≽ *${prefix}creatormenu*
+├≽ *${prefix}groupmenu*
+├≽ *${prefix}sistemmenu*
+├≽ *${prefix}gabutmenu*
+├≽ *${prefix}gamemenu*
+├────────────────────
+╞═══ 《 *SEARCH MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}stickermenu*
+├≽ *${prefix}creatormenu*
+├≽ *${prefix}groupmenu*
+├≽ *${prefix}downloadmenu*
+├────────────────────
+╞═══ 《 *ONWER MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}stickermenu*
+├≽ *${prefix}creatormenu*
+├≽ *${prefix}groupmenu*
+├≽ *${prefix}sistemmenu*
+├≽ *${prefix}gabutmenu*
+├≽ *${prefix}gamemenu*
+├────────────────────
+╞═══ 《 *THANKS TO* 》 ═══
+├────────────────────
+├≽ *NARUTOMO*
+├≽ *Alan Botz*
+├≽ *Sesilla/Owner*
+├≽ *Adiwajshing/Baileys*
+╘═══ 《 *By SesillaNBL* 》 ═══
   `
   let but = [
-  {urlButton: {displayText: 'Source Code ♨️',url: 'https://github.com/NzrlAfndi/Ichigo-Kurosaki'}}, 
-  {urlButton: {displayText: 'Website 🔗',url: 'https://linktr.ee/nzrlafndi'}}, 
-  {"quickReplyButton": {"displayText": "Donasi 🗂️","id": `donasi`},},
+  {urlButton: {displayText: 'Source Code ♨️',url: 'https://xnnx.com'}}, 
+  {urlButton: {displayText: 'Website 🔗',url: 'https://delnichi.xyz'}}, 
   {"quickReplyButton": {"displayText": "Owner 👦","id": "owner"},},
-  {"quickReplyButton": {"displayText": "Status Bot ⌚","id": `ping`}}
   ]
   ichi.sendButtonImg(m.chat, menu, global.ownerName, global.thumb, but)
   }
   break
-case 'donasi': case 'sewa': case 'sewabot': {
-  let donasi = `Scan QR Above To Donate
-
-Rental Bot Prices :
-💰 10k/week
-💰 25k/month
-💰 100k/year`
-  let but = [{"quickReplyButton": {"displayText": "Owner 👦","id": "owner"}}]
-  ichi.sendButtonImg(m.chat, donasi, global.ownerName, global.donasi, but)
-  }
-  break
 case 'sc': case 'sourcecode': case 'script': {
-  m.reply('*Script Berasal Dari :* https://github.com/nzrlafndi/ichigo-kurosaki\n\nJangan Lupa Bintang nya!')
+  m.reply('*Script Berasal Dari :* https://xnnx.com')
   }
   break
 case 'owner': {
@@ -393,7 +396,24 @@ case 'eval': {
   }
   }
   break
+case 'listdomain':
+const listdomainku = 
+`*List Domain NusaServerHosting Bot*
 
+*1.ffeventkulgar.com ❌*
+*2.chipsjagoid.com ❌*
+*3.eventmlid22.com ✅*
+*4.hdichipsnew22.xyz ✅*
+*5.eventnew88.my.id ❌*
+*6.pubgnewevent22.com ✅*
+*7.cratenew22.com ❌*
+*8.kulgarff.xyz ✅*
+*9.gruphotnew1.com ✅*
+*10.chathot14.my.id ✅*
+*11.pubg22.org ❌*
+`
+fakestatus(listdomainku)
+break
 //Group Menu
 case 'antilink':
   if (!m.isGroup) return m.reply(mess.group)
@@ -821,6 +841,12 @@ case 'wallpaper': {
   ichi.sendMessage(m.chat, { image: { url: result.image[0] }, caption: `Source Url : ${result.image[2] || result.image[1] || result.image[0]}`, buttons: buttonswallpaper }, { quoted: m })
   }
   break
+  case 'isgd':
+                    if (args.length == 0) return fakestatus(` Use Example: ${prefix + command} https://delnichi.xyz`)
+                    ini_url = args[0]
+                    get_result = await fetchJson(`https://api.dapuhy.xyz/api/others/isgd?url=${ini_url}&apikey=jteYUyARKd`)
+                    fakestatus(get_result.result)
+                    break
 case 'quotesanime': {
   m.reply(mess.wait)
   let anu = await quotesAnime()
@@ -850,13 +876,13 @@ case 'wikimedia': {
 //Downloader
 case 'ytmp4': case 'ytvideo': case 'ytv': {
   let { ytv } = require('../lib/y2mate')
-  if (!q) return m.reply(`Gunakan Format : ${command} linknya`)
-  if (!isUrl(q)) return m.reply('Link Invalid ❎')
+  if (!q) return fakestatus(`Gunakan Format : ${command} linknya`)
+  if (!isUrl(q)) return fakestatus('Link Invalid ❎')
   if (!q.includes('youtube')/('youtu.be')) return m.reply('Link Invalid ❎')
-  await m.reply(mess.wait)
+  await fakestatus(mess.wait)
   let quality = args[1] ? args[1] : '360p'
   let media = await ytv(text, quality)
-  if (media.filesize >= 100000) return m.reply('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
+  if (media.filesize >= 100000) return fakestatus('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
   var caption = `---- Youtube Downloader -----
   
 📄 Judul : ${media.title}
