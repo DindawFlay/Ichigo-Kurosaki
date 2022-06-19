@@ -7,7 +7,7 @@
 
 //Module 
 require('../settings')
-const { default: makeWASocket, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require('@adiwajshing/baileys')
+const { default: makeWASocket, BufferJSON, WAMessageStubType, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, prepareWAMessageMedia , generateWAMessage, areJidsSameUser, makeInMemoryStore} = require('@adiwajshing/baileys-md')
 const axios = require('axios')
 const chalk = require('chalk')
 const { exec, spawn, execSync } = require("child_process")
@@ -79,34 +79,7 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includes(m.sender) : false
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
-const fvn = {key: {participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})},message: { "audioMessage": {"mimetype":"audio/ogg; codecs=opus","seconds":359996400,"ptt": "true"}} } 
-const fakestatus = (teks) => {
-            ichi.sendMessage(from, teks, text, {
-                quoted: {
-                    key: {
-                        fromMe: false,
-                        participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})
-                    },
-                    message: {
-                        "imageMessage": {
-                            "url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
-                            "mimetype": "image/jpeg",
-                            "caption": "SesillaBot",
-                            "fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
-                            "fileLength": "28777",
-                            "height": 1080,
-                            "width": 1079,
-                            "mediaKey": "vXmRR7ZUeDWjXy5iQk17TrowBzuwRya0errAFnXxbGc=",
-                            "fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
-                            "directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
-                            "mediaKeyTimestamp": "1610993486",
-                            "jpegThumbnail": "https://f.top4top.io/p_2361q7mo70.jpeg",
-                            "scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
-                        }
-                    }
-                }
-            })
-        }
+const fvn = {key: {participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "6289643739077-1613049930@g.us" } : {})},message: { "audioMessage": {"mimetype":"audio/ogg; codecs=opus","seconds":359996400,"ptt": "true"}} } 
 
 const reply = (texto) => {
 			ichi.sendMessage(m.chat, { text: texto, mentions: [m.sender] }, {	quoted: m })
@@ -412,7 +385,7 @@ const listdomainku =
 *10.chathot14.my.id ✅*
 *11.pubg22.org ❌*
 `
-fakestatus(listdomainku)
+fvn(listdomainku)
 break
 //Group Menu
 case 'antilink':
@@ -876,10 +849,10 @@ case 'wikimedia': {
 //Downloader
 case 'ytmp4': case 'ytvideo': case 'ytv': {
   let { ytv } = require('../lib/y2mate')
-  if (!q) return fakestatus(`Gunakan Format : ${command} linknya`)
-  if (!isUrl(q)) return fakestatus('Link Invalid ❎')
+  if (!q) return fvn(`Gunakan Format : ${command} linknya`)
+  if (!isUrl(q)) return fvn('Link Invalid ❎')
   if (!q.includes('youtube')/('youtu.be')) return m.reply('Link Invalid ❎')
-  await fakestatus(mess.wait)
+  await fvn(mess.wait)
   let quality = args[1] ? args[1] : '360p'
   let media = await ytv(text, quality)
   if (media.filesize >= 100000) return fakestatus('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
@@ -931,7 +904,7 @@ case 'yts': case 'ytsearch': {
 👨‍🎤 Author : ${i.author.name}
 🔗 Url : ${i.url}\n\n─────────────────\n\n`
   }
-  ichi.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: m })
+  ichi.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: fvn})
   }
   break
 case 'play':
