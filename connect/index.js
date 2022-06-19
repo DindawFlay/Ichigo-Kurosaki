@@ -6,7 +6,7 @@
 */
 
 require('../settings')
-const { default: makeWASocket, useSingleFileAuthState, DisconnectReason, AnyMessageContent, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto } = require("@adiwajshing/baileys")
+const { default: makeWASocket, BufferJSON, WAMessageStubType, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, prepareWAMessageMedia , generateWAMessage, areJidsSameUser, makeInMemoryStore} = require('@adiwajshing/baileys-md')
 const pino = require('pino')
 const fs = require('fs')
 const chalk = require('chalk')
@@ -15,7 +15,6 @@ const axios = require('axios')
 const FileType = require('file-type')
 const PhoneNumber = require('awesome-phonenumber')
 const lolcatjs = require('lolcatjs')
-const {Boom} = require("@hapi/boom")
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('../lib/exif')
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('../lib/myfunc')
 const { state, saveState } = useSingleFileAuthState(`./${global.sessionName}.json`)
