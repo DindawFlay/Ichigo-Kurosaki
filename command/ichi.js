@@ -164,8 +164,8 @@ case 'menu': case 'help': case '?': {
 ├≽ *${prefix}leave*
 ├≽ *${prefix}block*
 ├≽ *${prefix}unblock*
-├≽ *${prefix}lsetppbot*
-├≽ *${prefix}lself*
+├≽ *${prefix}setppbot*
+├≽ *${prefix}self*
 ├≽ *${prefix}public*
 ├≽ *${prefix}eval*
 ├────────────────────
@@ -185,11 +185,11 @@ case 'menu': case 'help': case '?': {
 ├≽ *${prefix}hidetag*
 ├≽ *${prefix}ephemeral*
 ├────────────────────
-╞═══ 《 *DOWNLOADER MENU* 》 ═══
+╞═══ 《 *DOWNLOAD MENU* 》 ═══
 ├────────────────────
 ├≽ *${prefix}play*
-├≽ *${prefix}lyts*
-├≽ *${prefix}lytmp3*
+├≽ *${prefix}yts*
+├≽ *${prefix}ytmp3*
 ├≽ *${prefix}ytmp4*
 ├────────────────────
 ╞═══ 《 *RANDOM MENU* 》 ═══
@@ -565,7 +565,51 @@ case 'editinfo': {
   }
   }
   break
+case 'domain':
+if (!isOwner && !m.key.fromMe) return m.reply(mess.botOwner)
+        function subDomain1(host, ip) {
+          return new Promise((resolve) => {
+            let zone1 = "ed595de9253df9578d15b447750bd728";
+            let apiToken1 = "VQSio3lnRIdm9lM7d0h5xaEKSvi6x1z3zPg5y1VA";
+            let tld1 = "mediafireviral.my.id";
+            axios
+              .post(
+                `https://api.cloudflare.com/client/v4/zones/${zone1}/dns_records`,
+                { type: "A", name: host.replace(/[^a-z0-9.-]/gi, "") + "." + tld1, content: ip.replace(/[^0-9.]/gi, ""), ttl: 3600, priority: 10, proxied: false },
+                {
+                  headers: {
+                    Authorization: "Bearer " + apiToken1,
+                    "Content-Type": "application/json",
+                  },
+                }
+              )
+              .then((e) => {
+                let res = e.data;
+                if (res.success) resolve({ success: true, zone: res.result?.zone_name, name: res.result?.name, ip: res.result?.content });
+              })
+              .catch((e) => {
+                let err1 = e.response?.data?.errors?.[0]?.message || e.response?.data?.errors || e.response?.data || e.response || e;
+                let err1Str = String(err1);
+                resolve({ success: false, error: err1Str });
+              });
+          });
+        }
 
+        let raw1 = args?.join(" ")?.trim();
+        if (!raw1) return m.reply("_Erorr IP OR Host Vaild!_");
+        let host1 = raw1
+          .split("|")[0]
+          .trim()
+          .replace(/[^a-z0-9.-]/gi, "");
+        if (!host1) return m.reply("*Erorr Coba Lagi!*");
+        let ip1 = raw1.split("|")[1]?.replace(/[^0-9.]/gi, "");
+        if (!ip1 || ip1.split(".").length < 4) return m.reply(ip1 ? "_Erorr IP Invaild!_" : "_iP Tidak Ada!_");
+
+        subDomain1(host1, ip1).then((e) => {
+          if (e['success']) m.reply(`*Sucesss Domain ${e['name']} Terdaftar✅`);
+          else m.reply(`*Erorr Coba Lagi!*\n_Erorr_Msg_ : ${e['error']}`)
+        });
+        break
 //Maker Menu
 case 'sticker': case 's': case 'stickergif': case 'sgif': {
   if (!quoted) return m.reply(`Balas Video/Image Dengan Caption ${prefix + command}`)
