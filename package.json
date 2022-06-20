@@ -23,8 +23,9 @@
   "author": "Fandyyy",
   "license": "MIT",
   "dependencies": {
-    "@adiwajshing/baileys-md": "github:adiwajshing/baileys#multi-device",
+    "@adiwajshing/baileys": "^4.1.0",
     "@adiwajshing/keyed-db": "^0.2.4",
+    "@hapi/boom": "^10.0.0",
     "awesome-phonenumber": "^2.64.0",
     "axios": "^0.24.0",
     "cfonts": "^2.9.1",
