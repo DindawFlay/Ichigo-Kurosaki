@@ -9,11 +9,11 @@ const fs = require('fs')
 const chalk = require('chalk')
 
 //Ubah Disini
-global.ownerNumber = ['6289515233398','0']
+global.ownerNumber = ['6289515233398','+0']
 global.ownerName = 'Sesilla'
-global.packname = 'SesillaNBL'
-global.author = 'Sesilla'
-global.prefa = ['','.','.','#','!'] //Ilangin Prefix Yang '' Kalau Gamau No Prefix
+global.packname = 'SesillaMD'
+global.author = 'SesillaBotz'
+global.prefa = ['','.','.','!','!'] //Ilangin Prefix Yang '' Kalau Gamau No Prefix
 global.sessionName = 'sesi'
 
 //Message Nya Ubah Disini
@@ -28,7 +28,7 @@ done: 'Done!'
 }
 
 //Sesuaikan
-global.thumb = fs.readFileSync('./media/ichi.jpeg')
+global.thumb = fs.readFileSync('./media/images.jpeg')
 global.donasi = fs.readFileSync('./media/donasi.jpg')
 global.thumbnail = fs.readFileSync('./media/ichi.mp4')
 
