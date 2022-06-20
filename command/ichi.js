@@ -7,7 +7,7 @@
 
 //Module 
 require('../settings')
-const { default: makeWASocket, BufferJSON, WAMessageStubType, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, prepareWAMessageMedia , generateWAMessage, areJidsSameUser, makeInMemoryStore} = require('@adiwajshing/baileys-md')
+const { default: makeWASocket, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, downloadContentFromMessage, downloadHistory, proto, getMessage, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require('@adiwajshing/baileys')
 const axios = require('axios')
 const chalk = require('chalk')
 const { exec, spawn, execSync } = require("child_process")
@@ -79,7 +79,7 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includes(m.sender) : false
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
-const fvn = {key: {participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "6289643739077-1613049930@g.us" } : {})},message: { "audioMessage": {"mimetype":"audio/ogg; codecs=opus","seconds":359996400,"ptt": "true"}} } 
+
 
 const reply = (texto) => {
 			ichi.sendMessage(m.chat, { text: texto, mentions: [m.sender] }, {	quoted: m })
@@ -130,8 +130,10 @@ ichi.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
 			}).catch(_ => m.reply('Mungkin dah pernah dibuka bot'))
 		}
 
-
-
+//Update Database
+setInterval(() => {
+fs.writeFileSync('./storage/db.json', JSON.stringify(global.db, null, 2))
+}, 60 * 1000)
 
 if (!ichi.public) {
 if (!m.key.fromMe && !isOwner) return
@@ -146,78 +148,102 @@ switch(command) {
 
 case 'menu': case 'help': case '?': {
   let menu = `
-╒═══ 《 *SesillaNBL* 》 ═══
+╒═══ 《 *SesillaNBLBOTZ* 》 ═══
 ├────────────────────
-├≽ *Creator : SesillaNbl*
+├≽ *Creator : SesillaMD*
 ├≽ *Name : ${pushname}*
 ├≽ *Prefix : 「 ${prefix} 」*
 ├≽ *User : @${m.sender.split("@")[0]}*
+├≽ *Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')} WIB*
+├────────────────────
+╞═══ 《 *ONWER MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}bc*
+├≽ *${prefix}bcgc*
+├≽ *${prefix}join*
+├≽ *${prefix}leave*
+├≽ *${prefix}block*
+├≽ *${prefix}unblock*
+├≽ *${prefix}lsetppbot*
+├≽ *${prefix}lself*
+├≽ *${prefix}public*
+├≽ *${prefix}eval*
 ├────────────────────
 ╞═══ 《 *GROUP MENU* 》 ═══
 ├────────────────────
 ├≽ *${prefix}antilink*
 ├≽ *${prefix}linkgroup*
-├≽ *${prefix}kick*
-├≽ *${prefix}hidetag*
-├≽ *${prefix}tagall*
+├≽ *${prefix}revoke*
+├≽ *${prefix}lkick*
+├≽ *${prefix}ladd*
 ├≽ *${prefix}promote*
-├≽ *${prefix}ephemeral*
-├≽ *${prefix}demote*
-├≽ *${prefix}remove*
-├≽ *${prefix}add*
+├≽ *${prefix}ldemote*
+├≽ *${prefix}setname*
+├≽ *${prefix}setdesk*
 ├≽ *${prefix}setppgrup*
-├────────────────────
-╞═══ 《 *HOSTING MENU* 》 ═══
-├────────────────────
-├≽ *${prefix}addpackage<user/pack*
-├≽ *${prefix}listdomain*
-├≽ *${prefix}domain*
-├≽ *${prefix}sistemmenu*
-├≽ *${prefix}gabutmenu*
+├≽ *${prefix}tagall*
+├≽ *${prefix}hidetag*
+├≽ *${prefix}ephemeral*
 ├────────────────────
 ╞═══ 《 *DOWNLOADER MENU* 》 ═══
 ├────────────────────
-├≽ *${prefix}stickermenu*
-├≽ *${prefix}creatormenu*
-├≽ *${prefix}groupmenu*
-├≽ *${prefix}sistemmenu*
-├≽ *${prefix}gabutmenu*
-├≽ *${prefix}gamemenu*
+├≽ *${prefix}play*
+├≽ *${prefix}lyts*
+├≽ *${prefix}lytmp3*
+├≽ *${prefix}ytmp4*
 ├────────────────────
-╞═══ 《 *SEARCH MENU* 》 ═══
+╞═══ 《 *RANDOM MENU* 》 ═══
 ├────────────────────
-├≽ *${prefix}stickermenu*
-├≽ *${prefix}creatormenu*
-├≽ *${prefix}groupmenu*
-├≽ *${prefix}downloadmenu*
+├≽ *${prefix}pinterest*
+├≽ *${prefix}wallpaper*
+├≽ *${prefix}wikimedia*
+├≽ *${prefix}quotesanime*
 ├────────────────────
-╞═══ 《 *ONWER MENU* 》 ═══
+╞═══ 《 *MAKER MENU* 》 ═══
 ├────────────────────
-├≽ *${prefix}stickermenu*
-├≽ *${prefix}creatormenu*
-├≽ *${prefix}groupmenu*
-├≽ *${prefix}sistemmenu*
-├≽ *${prefix}gabutmenu*
-├≽ *${prefix}gamemenu*
+├≽ *${prefix}sticker*
+├≽ *${prefix}toimg*
+├≽ *${prefix}tovideo*
+├≽ *${prefix}toaudio*
+├≽ *${prefix}tomp3*
+├≽ *${prefix}tovn*
+├≽ *${prefix}togif*
+├≽ *${prefix}tourl*
+├≽ *${prefix}removebg*
+├≽ *${prefix}estetik*
+├≽ *${prefix}ktpmaker*
+├────────────────────
+╞═══ 《 *HOSTING MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}listdomain*
+├≽ *${prefix}addpackage*
+├≽ *${prefix}ceksmtp*
+├≽ *${prefix}statusserver*
+├≽ *${prefix}domain*
+├≽ *${prefix}hapusdefault*
+├≽ *${prefix}cekdefault*
+├≽ *${prefix}crateaccountwhm*
+├≽ *${prefix}idff*
+├≽ *${prefix}idml*
 ├────────────────────
 ╞═══ 《 *THANKS TO* 》 ═══
 ├────────────────────
-├≽ *NARUTOMO*
-├≽ *Alan Botz*
 ├≽ *Sesilla/Owner*
 ├≽ *Adiwajshing/Baileys*
-╘═══ 《 *By SesillaNBL* 》 ═══
+╘═══ 《 *SesillaNBLBOTZ* 》 ═══
   `
   let but = [
-  {urlButton: {displayText: 'Source Code ♨️',url: 'https://xnnx.com'}}, 
-  {urlButton: {displayText: 'Website 🔗',url: 'https://delnichi.xyz'}}, 
+  {urlButton: {displayText: 'Source Code ♨️',url: 'https://gmail.com'}}, 
+  {urlButton: {displayText: 'Website 🔗',url: 'https://delvanichi.life'}}, 
+  {"quickReplyButton": {"displayText": "Menu ✨","id": `menu`},},
   {"quickReplyButton": {"displayText": "Owner 👦","id": "owner"},},
+  {"quickReplyButton": {"displayText": "Status Bot ⌚","id": `ping`}}
   ]
   ichi.sendButtonImg(m.chat, menu, global.ownerName, global.thumb, but)
   }
   break
 case 'sc': case 'sourcecode': case 'script': {
-  m.reply('*Script Berasal Dari :* https://xnnx.com')
+  m.reply('*Erorr!*')
   }
   break
 case 'owner': {
@@ -279,7 +305,7 @@ case 'bcgc': case 'bcgroup': {
   let getGroups = await ichi.groupFetchAllParticipating()
   let groups = Object.entries(getGroups).slice(0).map(entry => entry[1])
   let anu = groups.map(v => v.id)
-  m.reply(mess.wait + '\nMohon Untuk Menunggu Sejenak')
+  m.reply(mess.wait + '\n*Wait....*')
   for (let i of anu) {
   await sleep(1500)
   let txt = `*Broadcast ${ichi.user.name}*\n\n${text}\n`
@@ -369,24 +395,7 @@ case 'eval': {
   }
   }
   break
-case 'listdomain':
-const listdomainku = 
-`*List Domain NusaServerHosting Bot*
 
-*1.ffeventkulgar.com ❌*
-*2.chipsjagoid.com ❌*
-*3.eventmlid22.com ✅*
-*4.hdichipsnew22.xyz ✅*
-*5.eventnew88.my.id ❌*
-*6.pubgnewevent22.com ✅*
-*7.cratenew22.com ❌*
-*8.kulgarff.xyz ✅*
-*9.gruphotnew1.com ✅*
-*10.chathot14.my.id ✅*
-*11.pubg22.org ❌*
-`
-fvn(listdomainku)
-break
 //Group Menu
 case 'antilink':
   if (!m.isGroup) return m.reply(mess.group)
@@ -814,12 +823,6 @@ case 'wallpaper': {
   ichi.sendMessage(m.chat, { image: { url: result.image[0] }, caption: `Source Url : ${result.image[2] || result.image[1] || result.image[0]}`, buttons: buttonswallpaper }, { quoted: m })
   }
   break
-  case 'isgd':
-                    if (args.length == 0) return fakestatus(` Use Example: ${prefix + command} https://delnichi.xyz`)
-                    ini_url = args[0]
-                    get_result = await fetchJson(`https://api.dapuhy.xyz/api/others/isgd?url=${ini_url}&apikey=jteYUyARKd`)
-                    fakestatus(get_result.result)
-                    break
 case 'quotesanime': {
   m.reply(mess.wait)
   let anu = await quotesAnime()
@@ -849,13 +852,13 @@ case 'wikimedia': {
 //Downloader
 case 'ytmp4': case 'ytvideo': case 'ytv': {
   let { ytv } = require('../lib/y2mate')
-  if (!q) return fvn(`Gunakan Format : ${command} linknya`)
-  if (!isUrl(q)) return fvn('Link Invalid ❎')
+  if (!q) return m.reply(`Gunakan Format : ${command} linknya`)
+  if (!isUrl(q)) return m.reply('Link Invalid ❎')
   if (!q.includes('youtube')/('youtu.be')) return m.reply('Link Invalid ❎')
-  await fvn(mess.wait)
+  await m.reply(mess.wait)
   let quality = args[1] ? args[1] : '360p'
   let media = await ytv(text, quality)
-  if (media.filesize >= 100000) return fakestatus('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
+  if (media.filesize >= 100000) return m.reply('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
   var caption = `---- Youtube Downloader -----
   
 📄 Judul : ${media.title}
@@ -904,7 +907,7 @@ case 'yts': case 'ytsearch': {
 👨‍🎤 Author : ${i.author.name}
 🔗 Url : ${i.url}\n\n─────────────────\n\n`
   }
-  ichi.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: fvn})
+  ichi.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: m })
   }
   break
 case 'play':
