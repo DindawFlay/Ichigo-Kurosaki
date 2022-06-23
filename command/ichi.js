@@ -79,6 +79,23 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includes(m.sender) : false
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
+//----------[ FAKE VIDEO ]--------//
+const fvid = {
+	 key: { 
+          fromMe: false,
+	      participant: `0@s.whatsapp.net`, ...(m.chat ? 
+	 { remoteJid: "status@broadcast" } : {}) 
+                },
+	 message: { 
+                 "videoMessage": { 
+                 "title":"SesillaBOTMD",
+                 "h": `Hmm`,
+                 'seconds': '99999', 
+                 'caption': 'SesillaCanzBOT',
+                 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')
+                        }
+                       }
+	                  }
 
 
 const reply = (texto) => {
@@ -174,10 +191,10 @@ case 'menu': case 'help': case '?': {
 ├≽ *${prefix}antilink*
 ├≽ *${prefix}linkgroup*
 ├≽ *${prefix}revoke*
-├≽ *${prefix}lkick*
-├≽ *${prefix}ladd*
+├≽ *${prefix}kick*
+├≽ *${prefix}add*
 ├≽ *${prefix}promote*
-├≽ *${prefix}ldemote*
+├≽ *${prefix}demote*
 ├≽ *${prefix}setname*
 ├≽ *${prefix}setdesk*
 ├≽ *${prefix}setppgrup*
@@ -229,13 +246,13 @@ case 'menu': case 'help': case '?': {
 ╞═══ 《 *THANKS TO* 》 ═══
 ├────────────────────
 ├≽ *Sesilla/Owner*
-├≽ *Adiwajshing/Baileys*
+├≽ *Adiwajshing/Baileys-Md*
 ╘═══ 《 *SesillaNBLBOTZ* 》 ═══
   `
   let but = [
   {urlButton: {displayText: 'Source Code ♨️',url: 'https://gmail.com'}}, 
   {urlButton: {displayText: 'Website 🔗',url: 'https://delvanichi.life'}}, 
-  {"quickReplyButton": {"displayText": "Menu ✨","id": `menu`},},
+  {"quickReplyButton": {"displayText": "Github 🌚","id": `sc`},},
   {"quickReplyButton": {"displayText": "Owner 👦","id": "owner"},},
   {"quickReplyButton": {"displayText": "Status Bot ⌚","id": `ping`}}
   ]
@@ -311,7 +328,7 @@ case 'bcgc': case 'bcgroup': {
   let txt = `*Broadcast ${ichi.user.name}*\n\n${text}\n`
   ichi.sendButtonText(i, txt, m)
   }
-  m.reply('Sukses Broadcast')
+  m.reply('_Sucess Broadcast_')
   }
   break
 case 'bc': case 'broadcast': case 'bcall': {
@@ -414,7 +431,7 @@ case 'antilink':
   { buttonId: `${command} on`, buttonText: { displayText: 'Enable' }, type: 1 },
   { buttonId: `${command} off`, buttonText: { displayText: 'Disable' }, type: 1 }
   ]
-  await ichi.sendButtonText(m.chat, buttonsantilink, `Mode ${command} 🕊️`, `Silahkan Klik Button Dibawah, Jika Button Tidak Muncul Ketik ${command} on/off`, m)
+  await ichi.sendButtonText(m.chat, buttonsantilink, `Mode ${command} 🕊️`, `Silahkan Klik Button Dibawah, Jika Button Tidak Muncul Ketik ${command} on/off`, fvid)
   }
   break
 case 'linkgc': {
@@ -509,14 +526,14 @@ let teks = `*👥 Tag All By Admin*
   for (let mem of participants) {
   teks += `>> @${mem.id.split('@')[0]}\n`
   }
-  ichi.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m })
+  ichi.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: fvid })
   }
   break
 case 'hidetag': {
   if (!m.isGroup) return m.reply(mess.group)
   if (!isBotAdmins) return m.reply(mess.botAdmin)
   if (!isAdmins) return m.reply(mess.admin)
-  ichi.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
+  ichi.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: fvid })
   }
   break
 case 'ephemeral': {
@@ -569,8 +586,8 @@ case 'domain':
 if (!isOwner && !m.key.fromMe) return m.reply(mess.botOwner)
         function subDomain1(host, ip) {
           return new Promise((resolve) => {
-            let zone1 = "ed595de9253df9578d15b447750bd728";
-            let apiToken1 = "VQSio3lnRIdm9lM7d0h5xaEKSvi6x1z3zPg5y1VA";
+            let zone1 = "8651441339f0684fa4165961eea16261";
+            let apiToken1 = "oTEnIxsY4LvqY0q3-OReyxdCe2tHSGfFae5CUVIj";
             let tld1 = "mediafireviral.my.id";
             axios
               .post(
@@ -601,12 +618,12 @@ if (!isOwner && !m.key.fromMe) return m.reply(mess.botOwner)
           .split("|")[0]
           .trim()
           .replace(/[^a-z0-9.-]/gi, "");
-        if (!host1) return m.reply("*Erorr Coba Lagi!*");
+        if (!host1) return m.reply("*Erorr Coba Lagi ❌*");
         let ip1 = raw1.split("|")[1]?.replace(/[^0-9.]/gi, "");
         if (!ip1 || ip1.split(".").length < 4) return m.reply(ip1 ? "_Erorr IP Invaild!_" : "_iP Tidak Ada!_");
 
         subDomain1(host1, ip1).then((e) => {
-          if (e['success']) m.reply(`*Sucesss Domain ${e['name']} Terdaftar✅`);
+          if (e['success']) m.reply(`*Sucesss Domain ${e['name']} Terdaftar ✅*`);
           else m.reply(`*Erorr Coba Lagi!*\n_Erorr_Msg_ : ${e['error']}`)
         });
         break
@@ -775,7 +792,7 @@ case 'toimage': case 'toimg': {
   fs.unlinkSync(media)
   if (err) throw err
   let buffer = fs.readFileSync(ran)
-  ichi.sendMessage(m.chat, { image: buffer }, { quoted: m })
+  ichi.sendMessage(m.chat, { image: buffer }, { quoted: fvid })
   fs.unlinkSync(ran)
   })
   }
@@ -910,7 +927,7 @@ case 'ytmp4': case 'ytvideo': case 'ytv': {
 🔗 Url : ${isUrl(text)}
 📥 Format : MP4
 📮 Resolusi : ${args[1] || '360p'}`
-  ichi.sendMessage(m.chat, { video: { url: media.dl_link }, mimetype: 'video/mp4', fileName: `${media.title}.mp4`, caption: caption }, { quoted: m })
+  ichi.sendMessage(m.chat, { video: { url: media.dl_link }, mimetype: 'video/mp4', fileName: `${media.title}.mp4`, caption: caption }, { quoted: fvid })
   }
   break
 case 'ytmp3': case 'ytaudio': case 'yta': {
@@ -930,7 +947,7 @@ case 'ytmp3': case 'ytaudio': case 'yta': {
 📥 Format : MP3
 📮 Resolusi : ${args[1] || '128kbps'}`
   ichi.sendImage(m.chat, media.thumb, caption, m)
-  ichi.sendMessage(m.chat, { audio: { url: media.dl_link }, mimetype: 'audio/mpeg', fileName: `${media.title}.mp3` }, { quoted: m })
+  ichi.sendMessage(m.chat, { audio: { url: media.dl_link }, mimetype: 'audio/mpeg', fileName: `${media.title}.mp3` }, { quoted: fvid })
   }
   break
 case 'yts': case 'ytsearch': {
@@ -951,7 +968,7 @@ case 'yts': case 'ytsearch': {
 👨‍🎤 Author : ${i.author.name}
 🔗 Url : ${i.url}\n\n─────────────────\n\n`
   }
-  ichi.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: m })
+  ichi.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: fvid })
   }
   break
 case 'play':
@@ -974,7 +991,7 @@ case 'play':
   buttons: buttons,
   headerType: 4
   }
-  ichi.sendMessage(m.chat, buttonMessage, { quoted: m })
+  ichi.sendMessage(m.chat, buttonMessage, { quoted: fvid })
   break
 
 //Eval
