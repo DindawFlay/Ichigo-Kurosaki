@@ -79,6 +79,33 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includes(m.sender) : false
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
+const fakestatus = (teks) => {
+            ichi.sendMessage(m.chat, teks, text, {
+                quoted: {
+                    key: {
+                        fromMe: false,
+                        participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: "status@broadcast" } : {})
+                    },
+                    message: {
+                        "imageMessage": {
+                            "url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
+                            "mimetype": "image/jpeg",
+                            "caption": "SesillanesiaBOTZ",
+                            "fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
+                            "fileLength": "28777",
+                            "height": 1080,
+                            "width": 1079,
+                            "mediaKey": "vXmRR7ZUeDWjXy5iQk17TrowBzuwRya0errAFnXxbGc=",
+                            "fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
+                            "directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
+                            "mediaKeyTimestamp": "1610993486",
+                            "jpegThumbnail": fs.readFileSync('./media/images.jpeg'),
+                            "scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
+                        }
+                    }
+                }
+            })
+        }
 //----------[ FAKE VIDEO ]--------//
 const fvid = {
 	 key: { 
@@ -91,7 +118,7 @@ const fvid = {
                  "title":"SesillaBOTMD",
                  "h": `Hmm`,
                  'seconds': '99999', 
-                 'caption': 'SesillaCanzBOT',
+                 'caption': 'Sesilla Cantik><',
                  'jpegThumbnail': fs.readFileSync('./media/images.jpeg')
                         }
                        }
@@ -260,7 +287,7 @@ case 'menu': case 'help': case '?': {
   }
   break
 case 'sc': case 'sourcecode': case 'script': {
-  fvid('*Erorr!*')
+  fakestatus('*Erorr!*')
   }
   break
 case 'owner': {
@@ -311,7 +338,7 @@ ${cpus[0].model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type =>
 _CPU Core(s) Usage (${cpus.length} Core CPU)_
 ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}`).join('\n\n')}` : ''}
   `.trim()
-  fvid(respon)
+  fakestatus(respon)
   }
   break
 
@@ -419,13 +446,13 @@ case 'antilink':
   if (!isBotAdmins) return m.reply(mess.botAdmin)
   if (!isAdmins) return m.reply(mess.admin)
   if (args[0] === "on") {
-  if (db.chats[m.chat].antilink) return m.reply(`Sudah Aktif Sebelumnya`)
+  if (db.chats[m.chat].antilink) return fakestatus(`Sudah Aktif Sebelumnya`)
   db.chats[m.chat].antilink = true
-  m.reply(`Antilink Berhasil Di Aktifkan !`)
+  fakestatus(`Antilink Berhasil Di Aktifkan !`)
   } else if (args[0] === "off") {
   if (!db.chats[m.chat].antilink) return m.reply(`Sudah Nonaktif Sebelumnya`)
   db.chats[m.chat].antilink = false
-  m.reply(`Antilink Berhasil Di Nonaktifkan !`)
+  fakestatus(`Antilink Berhasil Di Nonaktifkan !`)
   } else {
   let buttonsantilink = [
   { buttonId: `${command} on`, buttonText: { displayText: 'Enable' }, type: 1 },
@@ -604,13 +631,13 @@ case 'domain':
           .split("|")[0]
           .trim()
           .replace(/[^a-z0-9.-]/gi, "");
-        if (!host1) return m.reply("*Erorr Coba Lagi ❌*");
+        if (!host1) return fakestatus("*Erorr Coba Lagi ❌*");
         let ip1 = raw1.split("|")[1]?.replace(/[^0-9.]/gi, "");
-        if (!ip1 || ip1.split(".").length < 4) return m.reply(ip1 ? "_Erorr IP Invaild!_" : "_iP Tidak Ada!_");
+        if (!ip1 || ip1.split(".").length < 4) return fakestatus(ip1 ? "_Erorr IP Invaild!_" : "_iP Tidak Ada!_");
 
         subDomain1(host1, ip1).then((e) => {
-          if (e['success']) m.reply(`*Sucesss Domain ${e['name']} Terdaftar ✅*`);
-          else fvid(`*Erorr Coba Lagi!*\n_Erorr_Msg_ : ${e['error']}`)
+          if (e['success']) fakestatus(`*Sucesss Domain ${e['name']} Terdaftar ✅*`);
+          else fakestatus(`*Erorr Coba Lagi!*\n_Erorr_Msg_ : ${e['error']}`)
         });
         break
 //Maker Menu
@@ -837,15 +864,15 @@ case 'togif': {
   }
   break
 case 'tourl': {
-  m.reply(mess.wait)
+  fakestatus(mess.wait)
   let { UploadFileUgu, webp2mp4File, TelegraPh } = require('../lib/uploader')
   let media = await ichi.downloadAndSaveMediaMessage(quoted)
   if (/image/.test(mime)) {
   let anu = await TelegraPh(media)
-  m.reply(util.format(anu))
+  fakestatus(util.format(anu))
   } else if (!/image/.test(mime)) {
   let anu = await UploadFileUgu(media)
-  m.reply(util.format(anu))
+  fakestatus(util.format(anu))
   }
   await fs.unlinkSync(media)
   }
@@ -899,10 +926,10 @@ case 'wikimedia': {
 //Downloader
 case 'ytmp4': case 'ytvideo': case 'ytv': {
   let { ytv } = require('../lib/y2mate')
-  if (!q) return m.reply(`Gunakan Format : ${command} linknya`)
-  if (!isUrl(q)) return m.reply('Link Invalid ❎')
+  if (!q) return m.fakestatus(`Gunakan Format : ${command} linknya`)
+  if (!isUrl(q)) return m.fakestatus('Link Invalid ❎')
   if (!q.includes('youtube')/('youtu.be')) return m.reply('Link Invalid ❎')
-  await m.reply(mess.wait)
+  await m.fakestatus(mess.wait)
   let quality = args[1] ? args[1] : '360p'
   let media = await ytv(text, quality)
   if (media.filesize >= 100000) return m.reply('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
