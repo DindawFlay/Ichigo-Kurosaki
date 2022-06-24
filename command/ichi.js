@@ -79,7 +79,8 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includes(m.sender) : false
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
-const fgif = {key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: "status@broadcast" } : {})},message: {"videoMessage": { "title":`${moment.tz('Asia/Jakarta').format('HH:mm:ss')}`, "h": `Hmm`,'seconds': '359996400', 'gifPlayback': 'true', 'caption': `SesillaCanzBot`, 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')}}}
+const fgif = {key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: "status@broadcast" } : {})},message: {"videoMessage": { "title":`${moment.tz('Asia/Jakarta').format('HH:mm:ss')}`, "h": `Hmm`,'seconds': '359996400', 'gifPlayback': 'true', 'caption': `SesillanesiaCanz`, 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')}}}
+const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "status@broadcast"},"message": {"groupInviteMessage": {"groupJid": "6288213840883-1616169743@g.us","inviteCode": "m","groupName": "P", "caption": `${moment.tz('Asia/Jakarta').format('HH:mm:ss')}`, 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')}}}
 //----------[ FAKE VIDEO ]--------//
 const fvid = {
 	 key: { 
@@ -160,7 +161,6 @@ case 'menu': case 'help': case '?': {
 ╞═══ 《 *DOWNLOAD MENU* 》 ═══
 ├────────────────────
 ├≽ *${prefix}play*
-├≽ *${prefix}yts*
 ├≽ *${prefix}ytmp3*
 ├≽ *${prefix}ytmp4*
 ├────────────────────
@@ -186,7 +186,7 @@ case 'menu': case 'help': case '?': {
   let but = [
   {urlButton: {displayText: 'Source Code ♨️',url: 'https://gmail.com'}}, 
   {urlButton: {displayText: 'Website 🔗',url: 'https://delvanichi.life'}}, 
-  {"quickReplyButton": {"displayText": "Github 🌚","id": `sc`},},
+  {urlButton: {displayText: 'Github 💫',url: 'https://github.com'}}, 
   {"quickReplyButton": {"displayText": "Owner 👦","id": "owner"},},
   {"quickReplyButton": {"displayText": "Status Bot ⌚","id": `ping`}}
   ]
@@ -194,7 +194,7 @@ case 'menu': case 'help': case '?': {
   }
   break
 case 'sc': case 'sourcecode': case 'script': {
-  m.reply('*Ecse Ini Tidak Ada!*')
+  m.reply('*Ecse Ini Rusak!*')
   }
   break
 case 'owner': {
@@ -248,12 +248,17 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
   m.reply(respon)
   }
   break
+  case 'idff':
+            if (args.length == 0) return fgclink(`Example: ${prefix + command} 570098876`)
+            var { data } = await axios.get(`https://api.lolhuman.xyz/api/freefire/${args[0]}?apikey=3f56f3c5799ae89c6d0f9c96`)
+            fgclink(data.result)
+            break
 //Downloader
 case 'ytmp4': case 'ytvideo': case 'ytv': {
   let { ytv } = require('../lib/y2mate')
-  if (!q) return m.reply(`Gunakan Format : ${command} linknya`)
-  if (!isUrl(q)) return m.reply('Link Invalid ❎')
-  if (!q.includes('youtube')/('youtu.be')) return m.reply('Link Invalid ❎')
+  if (!q) return m.reply(`_Erorr Link Yt Nya Mana Anj_`)
+  if (!isUrl(q)) return m.reply('_Erorr Link Invaild ❌_')
+  if (!q.includes('youtube')/('youtu.be')) return m.reply('_Link Erorr ❌_')
   await m.reply(mess.wait)
   let quality = args[1] ? args[1] : '360p'
   let media = await ytv(text, quality)
@@ -270,14 +275,14 @@ case 'ytmp4': case 'ytvideo': case 'ytv': {
   break
 case 'ytmp3': case 'ytaudio': case 'yta': {
   let { yta } = require('../lib/y2mate')
-  if (!q) return m.reply(`Gunakan Format : ${command} linknya`)
-  if (!isUrl(q)) return m.reply('Link Invalid ❎')
-  if (!q.includes('youtube')/('youtu.be')) return m.reply('Link Invalid ❎')
+  if (!q) return m.reply(`_Erorr Link Yt Nya Mana Anj_`)
+  if (!isUrl(q)) return m.reply('_Erorr Link Invaild ❌_')
+  if (!q.includes('youtube')/('youtu.be')) return m.reply('_Link Erorr ❌_')
   await m.reply(mess.wait)
   let quality = args[1] ? args[1] : '128kbps'
   let media = await yta(text, quality)
   if (media.filesize >= 100000) return m.reply('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
-  var caption = `*------ Youtube Downloader -----*
+  var caption = `*------YOUTUBE DOWNLOADER ✅------*
 
 📄 Title : ${media.title}
 🎚️ Size : ${media.filesizeF}
@@ -285,18 +290,18 @@ case 'ytmp3': case 'ytaudio': case 'yta': {
 📥 Format : MP3
 📮 Resolusi : ${args[1] || '128kbps'}`
   ichi.sendImage(m.chat, media.thumb, caption, fgif)
-  ichi.sendMessage(m.chat, { audio: { url: media.dl_link }, mimetype: 'audio/mpeg', fileName: `${media.title}.mp3` }, { quoted: fvid })
+  ichi.sendMessage(m.chat, { audio: { url: media.dl_link }, mimetype: 'audio/mpeg', fileName: `${media.title}.mp3` }, { quoted:fvid})
   }
   break
 case 'play':
-  if (!text) throw `Example : ${prefix + command} story wa anime`
+  if (!text) throw `Example : ${prefix + command} Asadekontol`
   let yts = require("yt-search")
   let search = await yts(text)
   let anu = search.videos[Math.floor(Math.random() * search.videos.length)]
-  let buttons = [{buttonId: `ytmp3 ${anu.url}`, buttonText: {displayText: 'Audio 🎵'}, type: 1}, {buttonId: `ytmp4 ${anu.url}`, buttonText: {displayText: 'Video 🎦'}, type: 1}]
+  let buttons = [{buttonId: `ytmp3 ${anu.url}`, buttonText: {displayText: 'MP3'}, type: 1}, {buttonId: `ytmp4 ${anu.url}`, buttonText: {displayText: 'MP4'}, type: 1}]
   let buttonMessage = {
   image: { url: anu.thumbnail },
-  caption: `*----- DATA DITEMUKAN -----*
+  caption: `*-------DATA DITEMUKAAN ✅--------*
   
 *📄 Title :* ${anu.title}
 *⌚ Duration :* ${anu.timestamp}
