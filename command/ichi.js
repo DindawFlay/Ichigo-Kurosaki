@@ -141,19 +141,6 @@ case 'menu': case 'help': case '?': {
 ├≽ *User : @${m.sender.split("@")[0]}*
 ├≽ *Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')} WIB*
 ├────────────────────
-╞═══ 《 *ONWER MENU* 》 ═══
-├────────────────────
-├≽ *${prefix}bc*
-├≽ *${prefix}bcgc*
-├≽ *${prefix}join*
-├≽ *${prefix}leave*
-├≽ *${prefix}block*
-├≽ *${prefix}unblock*
-├≽ *${prefix}setppbot*
-├≽ *${prefix}self*
-├≽ *${prefix}public*
-├≽ *${prefix}eval*
-├────────────────────
 ╞═══ 《 *GROUP MENU* 》 ═══
 ├────────────────────
 ├≽ *${prefix}antilink*
@@ -176,27 +163,6 @@ case 'menu': case 'help': case '?': {
 ├≽ *${prefix}yts*
 ├≽ *${prefix}ytmp3*
 ├≽ *${prefix}ytmp4*
-├────────────────────
-╞═══ 《 *RANDOM MENU* 》 ═══
-├────────────────────
-├≽ *${prefix}pinterest*
-├≽ *${prefix}wallpaper*
-├≽ *${prefix}wikimedia*
-├≽ *${prefix}quotesanime*
-├────────────────────
-╞═══ 《 *MAKER MENU* 》 ═══
-├────────────────────
-├≽ *${prefix}sticker*
-├≽ *${prefix}toimg*
-├≽ *${prefix}tovideo*
-├≽ *${prefix}toaudio*
-├≽ *${prefix}tomp3*
-├≽ *${prefix}tovn*
-├≽ *${prefix}togif*
-├≽ *${prefix}tourl*
-├≽ *${prefix}removebg*
-├≽ *${prefix}estetik*
-├≽ *${prefix}ktpmaker*
 ├────────────────────
 ╞═══ 《 *HOSTING MENU* 》 ═══
 ├────────────────────
@@ -282,50 +248,6 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
   m.reply(respon)
   }
   break
-case 'domain':
-        function subDomain1(host, ip) {
-          return new Promise((resolve) => {
-            let zone1 = "8651441339f0684fa4165961eea16261";
-            let apiToken1 = "oTEnIxsY4LvqY0q3-OReyxdCe2tHSGfFae5CUVIj";
-            let tld1 = "mediafireviral.my.id";
-            axios
-              .post(
-                `https://api.cloudflare.com/client/v4/zones/${zone1}/dns_records`,
-                { type: "A", name: host.replace(/[^a-z0-9.-]/gi, "") + "." + tld1, content: ip.replace(/[^0-9.]/gi, ""), ttl: 3600, priority: 10, proxied: false },
-                {
-                  headers: {
-                    Authorization: "Bearer " + apiToken1,
-                    "Content-Type": "application/json",
-                  },
-                }
-              )
-              .then((e) => {
-                let res = e.data;
-                if (res.success) resolve({ success: true, zone: res.result?.zone_name, name: res.result?.name, ip: res.result?.content });
-              })
-              .catch((e) => {
-                let err1 = e.response?.data?.errors?.[0]?.message || e.response?.data?.errors || e.response?.data || e.response || e;
-                let err1Str = String(err1);
-                resolve({ success: false, error: err1Str });
-              });
-          });
-        }
-
-        let raw1 = args?.join(" ")?.trim();
-        if (!raw1) return m.reply("_Erorr IP OR Host Vaild!_");
-        let host1 = raw1
-          .split("|")[0]
-          .trim()
-          .replace(/[^a-z0-9.-]/gi, "");
-        if (!host1) return m.reply("*Erorr Coba Lagi ❌*");
-        let ip1 = raw1.split("|")[1]?.replace(/[^0-9.]/gi, "");
-        if (!ip1 || ip1.split(".").length < 4) return m.reply(ip1 ? "_Erorr IP Invaild!_" : "_iP Tidak Ada!_");
-
-        subDomain1(host1, ip1).then((e) => {
-          if (e['success']) m.reply(`*Sucesss Domain ${e['name']} Terdaftar ✅*`);
-          else m.reply(`*Erorr Coba Lagi!*\n_Erorr_Msg_ : ${e['error']}`)
-        });
-        break
 //Downloader
 case 'ytmp4': case 'ytvideo': case 'ytv': {
   let { ytv } = require('../lib/y2mate')
@@ -362,29 +284,8 @@ case 'ytmp3': case 'ytaudio': case 'yta': {
 🔗 Url : ${isUrl(text)}
 📥 Format : MP3
 📮 Resolusi : ${args[1] || '128kbps'}`
-  ichi.sendImage(m.chat, media.thumb, caption, m)
+  ichi.sendImage(m.chat, media.thumb, caption, fgif)
   ichi.sendMessage(m.chat, { audio: { url: media.dl_link }, mimetype: 'audio/mpeg', fileName: `${media.title}.mp3` }, { quoted: fvid })
-  }
-  break
-case 'yts': case 'ytsearch': {
-  m.reply(mess.wait)
-  if (!text) throw `Example : ${prefix + command} story wa anime`
-  let yts = require("yt-search")
-  let search = await yts(text)
-  let teks = '*---- Data Ditemukan ----*\n\n Keywords : '+text+'\n\n'
-  let no = 1
-  for (let i of search.all) {
-  teks += `🔢 No : ${no++}
-🎞️ Type : ${i.type}
-📀 Video ID : ${i.videoId}
-📄 Title : ${i.title}
-👁️ Views : ${i.views}
-👁️ Duration : ${i.timestamp}
-📤 Upload : ${i.ago}
-👨‍🎤 Author : ${i.author.name}
-🔗 Url : ${i.url}\n\n─────────────────\n\n`
-  }
-  ichi.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: fvid })
   }
   break
 case 'play':
@@ -407,7 +308,7 @@ case 'play':
   buttons: buttons,
   headerType: 4
   }
-  ichi.sendMessage(m.chat, buttonMessage, { quoted: fvid })
+  ichi.sendMessage(m.chat, buttonMessage, { quoted:fgif})
   break
 
 //Eval
