@@ -79,8 +79,9 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includes(m.sender) : false
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
+const fgif = {key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: "status@broadcast" } : {})},message: {"videoMessage": { "title":`${moment.tz('Asia/Jakarta').format('HH:mm:ss')}`, "h": `Hmm`,'seconds': '359996400', 'gifPlayback': 'true', 'caption': `SesillaCanzBot`, 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')}}}
 const fakestatus = (teks) => {
-            ichi.sendMessage(m.chat, teks, text, {
+            ichi.sendMessage(from, teks, text, {
                 quoted: {
                     key: {
                         fromMe: false,
@@ -545,9 +546,7 @@ case 'setppgroup': case 'setppgrup': case 'setppgc': {
   break
 case 'hidetag': {
   if (!m.isGroup) return m.reply(mess.group)
-  if (!isBotAdmins) return m.reply(mess.botAdmin)
-  if (!isAdmins) return m.reply(mess.admin)
-  ichi.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted:fvid})
+  ichi.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted:fgif})
   }
   break
 case 'ephemeral': {
@@ -564,7 +563,6 @@ case 'ephemeral': {
   break
 case 'group': {
   if (!m.isGroup) return m.reply(mess.group)
-  if (!isBotAdmins) return m.reply(mess.botAdmin)
   if (!isAdmins) return m.reply(mess.admin)
   if (args[0] === 'close'){
   await ichi.groupSettingUpdate(m.chat, 'announcement').then((res) => m.reply(`Sukses Menutup Group`)).catch((err) => m.reply(jsonformat(err)))
@@ -575,7 +573,7 @@ case 'group': {
   { buttonId: `${command} open`, buttonText: { displayText: 'Open' }, type: 1 },
   { buttonId: `${command} close`, buttonText: { displayText: 'Close' }, type: 1 }
   ]
-  await ichi.sendButtonText(m.chat, buttonsgroup, `Mode ${command} 🕊️`, `Silahkan Klik Button Dibawah, Jika Button Tidak Muncul Ketik ${command} open/close`, m)
+  await ichi.sendButtonText(m.chat, buttonsgroup, `Mode ${command} 🕊️`, `Silahkan Klik Button Dibawah, Jika Button Tidak Muncul Ketik ${command} open/close`, fgif)
   }
   }
   break
@@ -626,7 +624,7 @@ case 'domain':
         }
 
         let raw1 = args?.join(" ")?.trim();
-        if (!raw1) return m.reply("_Erorr IP OR Host Vaild!_");
+        if (!raw1) return fakestatus("_Erorr IP OR Host Vaild!_");
         let host1 = raw1
           .split("|")[0]
           .trim()
