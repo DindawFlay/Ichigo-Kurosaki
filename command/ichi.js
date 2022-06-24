@@ -260,11 +260,11 @@ case 'menu': case 'help': case '?': {
   }
   break
 case 'sc': case 'sourcecode': case 'script': {
-  m.reply('*Erorr!*')
+  fvid('*Erorr!*')
   }
   break
 case 'owner': {
-  ichi.sendContact(m.chat, global.ownerNumber, m)
+  ichi.sendContact(m.chat, global.ownerNumber, fvid)
   }
   break
 case 'ping': case 'botstatus': case 'statusbot': case 'speed': case 'tes': {
@@ -311,7 +311,7 @@ ${cpus[0].model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type =>
 _CPU Core(s) Usage (${cpus.length} Core CPU)_
 ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}`).join('\n\n')}` : ''}
   `.trim()
-  m.reply(respon)
+  fvid(respon)
   }
   break
 
@@ -516,24 +516,11 @@ case 'setppgroup': case 'setppgrup': case 'setppgc': {
   m.reply(mess.done)
   }
   break
-case 'tagall': {
-  if (!m.isGroup) return m.reply(mess.group)
-  if (!isBotAdmins) return m.reply(mess.botAdmin)
-  if (!isAdmins) return m.reply(mess.admin)
-let teks = `*👥 Tag All By Admin*
- 
-🗞️ *Pesan : ${q ? q : 'kosong'}*\n\n`
-  for (let mem of participants) {
-  teks += `>> @${mem.id.split('@')[0]}\n`
-  }
-  ichi.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: fvid })
-  }
-  break
 case 'hidetag': {
   if (!m.isGroup) return m.reply(mess.group)
   if (!isBotAdmins) return m.reply(mess.botAdmin)
   if (!isAdmins) return m.reply(mess.admin)
-  ichi.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: fvid })
+  ichi.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted:fvid})
   }
   break
 case 'ephemeral': {
@@ -583,7 +570,6 @@ case 'editinfo': {
   }
   break
 case 'domain':
-if (!isOwner && !m.key.fromMe) return m.reply(mess.botOwner)
         function subDomain1(host, ip) {
           return new Promise((resolve) => {
             let zone1 = "8651441339f0684fa4165961eea16261";
@@ -624,12 +610,12 @@ if (!isOwner && !m.key.fromMe) return m.reply(mess.botOwner)
 
         subDomain1(host1, ip1).then((e) => {
           if (e['success']) m.reply(`*Sucesss Domain ${e['name']} Terdaftar ✅*`);
-          else m.reply(`*Erorr Coba Lagi!*\n_Erorr_Msg_ : ${e['error']}`)
+          else fvid(`*Erorr Coba Lagi!*\n_Erorr_Msg_ : ${e['error']}`)
         });
         break
 //Maker Menu
 case 'sticker': case 's': case 'stickergif': case 'sgif': {
-  if (!quoted) return m.reply(`Balas Video/Image Dengan Caption ${prefix + command}`)
+  if (!quoted) return fvid(`Balas Video/Image Dengan Caption ${prefix + command}`)
   m.reply(mess.wait)
   if (/image/.test(mime)) {
   let media = await quoted.download()
