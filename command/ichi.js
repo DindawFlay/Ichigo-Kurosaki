@@ -186,11 +186,11 @@ case 'menu': case 'help': case '?': {
   let but = [
   {urlButton: {displayText: 'Source Code ♨️',url: 'https://gmail.com'}}, 
   {urlButton: {displayText: 'Website 🔗',url: 'https://delvanichi.life'}}, 
-  {urlButton: {displayText: 'Github 💫',url: 'https://github.com'}}, 
+  {"quickReplyButton": {"displayText": "Escse 🔗","id": "owner"},},
   {"quickReplyButton": {"displayText": "Owner 👦","id": "owner"},},
   {"quickReplyButton": {"displayText": "Status Bot ⌚","id": `ping`}}
   ]
-  ichi.sendButtonImg(m.chat, menu, global.ownerName, global.thumb,but,fgif)
+  ichi.sendButtonImg(m.chat, menu, global.ownerName, global.thumb,but,fgclink)
   }
   break
 case 'sc': case 'sourcecode': case 'script': {
@@ -248,10 +248,10 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
   m.reply(respon)
   }
   break
-  case 'idff':
-            if (args.length == 0) return fgclink(`Example: ${prefix + command} 570098876`)
+  case 'idff': 
+            if (args.length == 0) return m.reply(`Example: ${prefix + command} 570098876`)
             var { data } = await axios.get(`https://api.lolhuman.xyz/api/freefire/${args[0]}?apikey=3f56f3c5799ae89c6d0f9c96`)
-            fgclink(data.result)
+            m.reply(data.result)
             break
 //Downloader
 case 'ytmp4': case 'ytvideo': case 'ytv': {
