@@ -9,7 +9,7 @@ const fs = require('fs')
 const chalk = require('chalk')
 
 //Ubah Disini
-global.ownerNumber = ['6289515233398','+0']
+global.ownerNumber = ['6289515233398','+15517868089']
 global.ownerName = 'Sesilla'
 global.packname = 'SesillaMD'
 global.author = 'SesillaBotz'
