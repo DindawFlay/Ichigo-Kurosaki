@@ -81,6 +81,47 @@ const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.qu
 const isNumber = x => typeof x === 'number' && !isNaN(x)
 const fgif = {key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: "status@broadcast" } : {})},message: {"videoMessage": { "title":`${moment.tz('Asia/Jakarta').format('HH:mm:ss')}`, "h": `Hmm`,'seconds': '359996400', 'gifPlayback': 'true', 'caption': `SesillanesiaCanz`, 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')}}}
 const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "status@broadcast"},"message": {"groupInviteMessage": {"groupJid": "6288213840883-1616169743@g.us","inviteCode": "m","groupName": "P", "caption": `${moment.tz('Asia/Jakarta').format('HH:mm:ss')}`, 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')}}}
+const faketxt = {
+	 key: { 
+          fromMe: false,
+	      participant: `0@s.whatsapp.net`, ...(m.chat ? 
+	 { remoteJid: "status@broadcast" } : {}) 
+                },
+	 message: { 
+		"extendedTextMessage": {
+                 "text": "SesillaRei",
+                 "title": "AkuSesillanesia",
+                 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')
+                        }
+	                  } 
+                     }
+            const fakegroup = (teks) => {
+            ichi.sendMessage(m.chat, teks, text, {
+                quoted: {
+                    key: {
+                        fromMe: false,
+                        participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "6289523258649-1604595598@g.us" } : {})
+                    },
+                    message: {
+                        "imageMessage": {
+                            "url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
+                            "mimetype": "image/jpeg",
+                            "caption": "SesillaAnj",
+                            "fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
+                            "fileLength": "28777",
+                            "height": 1080,
+                            "width": 1079,
+                            "mediaKey": "vXmRR7ZUeDWjXy5iQk17TrowBzuwRya0errAFnXxbGc=",
+                            "fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
+                            "directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
+                            "mediaKeyTimestamp": "1610993486",
+                            "jpegThumbnail": fs.readFileSync('./media/images.jpeg'),
+                            "scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
+                        }
+                    }
+                }
+            })
+        }
 //----------[ FAKE VIDEO ]--------//
 const fvid = {
 	 key: { 
@@ -186,7 +227,7 @@ case 'menu': case 'help': case '?': {
   let but = [
   {urlButton: {displayText: 'Source Code ♨️',url: 'https://gmail.com'}}, 
   {urlButton: {displayText: 'Website 🔗',url: 'https://delvanichi.life'}}, 
-  {"quickReplyButton": {"displayText": "Escse 🔗","id": "owner"},},
+  {"quickReplyButton": {"displayText": "Menu 🔙","id": ".menu"},},
   {"quickReplyButton": {"displayText": "Owner 👦","id": "owner"},},
   {"quickReplyButton": {"displayText": "Status Bot ⌚","id": `ping`}}
   ]
@@ -194,11 +235,11 @@ case 'menu': case 'help': case '?': {
   }
   break
 case 'sc': case 'sourcecode': case 'script': {
-  m.reply('*Ecse Ini Rusak!*')
+  fakegroup('*Ecse Ini Rusak!*')
   }
   break
 case 'owner': {
-  ichi.sendContact(m.chat, global.ownerNumber,fgif)
+  ichi.sendContact(m.chat, global.ownerNumber,fgclink)
   }
   break
 case 'ping': case 'botstatus': case 'statusbot': case 'speed': case 'tes': {
@@ -245,14 +286,29 @@ ${cpus[0].model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type =>
 _CPU Core(s) Usage (${cpus.length} Core CPU)_
 ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}`).join('\n\n')}` : ''}
   `.trim()
-  m.reply(respon)
+  m.fakegroup(respon)
   }
   break
   case 'idff': 
             if (args.length == 0) return m.reply(`Example: ${prefix + command} 570098876`)
             var { data } = await axios.get(`https://api.lolhuman.xyz/api/freefire/${args[0]}?apikey=3f56f3c5799ae89c6d0f9c96`)
-            m.reply(data.result)
+            fakegroup(data.result)
             break
+            case 'tourl': {
+  m.reply(mess.wait)
+  let { UploadFileUgu, webp2mp4File, TelegraPh } = require('../lib/uploader')
+  let media = await ichi.downloadAndSaveMediaMessage(quoted)
+  if (/image/.test(mime)) {
+  let anu = await TelegraPh(media)
+  m.reply(util.format(anu))
+  } else if (!/image/.test(mime)) {
+  let anu = await UploadFileUgu(media)
+  m.reply(util.format(anu))
+  }
+  await fs.unlinkSync(media)
+  }
+  break
+
 //Downloader
 case 'ytmp4': case 'ytvideo': case 'ytv': {
   let { ytv } = require('../lib/y2mate')
