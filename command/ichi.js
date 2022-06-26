@@ -142,7 +142,7 @@ const fvid = {
 
 
 const reply = async (teks) => {
-			return await ichi.sendMessage(m.chat,teks,fgif, quoted, m)
+			return await ichi.sendMessage(m.chat,teks,quoted,fgif)
 		}
 		
 try {
@@ -235,7 +235,7 @@ case 'menu': case 'help': case '?': {
   }
   break
 case 'sc': case 'sourcecode': case 'script': {
-  m.reply('*Ecse Ini Rusak!*')
+  fgif('*Ecse Ini Rusak!*')
   }
   break
 case 'owner': {
