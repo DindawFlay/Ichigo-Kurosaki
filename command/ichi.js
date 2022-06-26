@@ -79,7 +79,7 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includes(m.sender) : false
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
-
+const fgif = {key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: "status@broadcast" } : {})},message: {"videoMessage": { "title":`${moment.tz('Asia/Jakarta').format('HH:mm:ss')}`, "h": `Hmm`,'seconds': '359996400', 'gifPlayback': 'true', 'caption': `SesillaDairyMD`, 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')}}}
 
 const reply = (texto) => {
 			ichi.sendMessage(m.chat, { text: texto, mentions: [m.sender] }, {	quoted: m })
@@ -148,106 +148,93 @@ switch(command) {
 
 case 'menu': case 'help': case '?': {
   let menu = `
-╔════════
-╠══ *OWNER MENU*
-╠ ${prefix}bc
-╠ ${prefix}bcgc
-╠ ${prefix}join
-╠ ${prefix}leave
-╠ ${prefix}block
-╠ ${prefix}unblock
-╠ ${prefix}setppbot
-╠ ${prefix}self
-╠ ${prefix}public
-╠ ${prefix}eval
-╚════════
-  
-╔════════
-╠══ *GROUP MENU*
-╠ ${prefix}antilink
-╠ ${prefix}linkgroup
-╠ ${prefix}revoke
-╠ ${prefix}kick
-╠ ${prefix}add
-╠ ${prefix}promote
-╠ ${prefix}demote
-╠ ${prefix}setname
-╠ ${prefix}setdesk
-╠ ${prefix}setppgrup
-╠ ${prefix}tagall
-╠ ${prefix}hidetag
-╠ ${prefix}ephemeral
-╚════════
-  
-╔════════
-╠══ *MAKER MENU*
-╠ ${prefix}sticker
-╠ ${prefix}toimg
-╠ ${prefix}tovideo
-╠ ${prefix}toaudio
-╠ ${prefix}tomp3
-╠ ${prefix}tovn
-╠ ${prefix}togif
-╠ ${prefix}tourl
-╠ ${prefix}removebg
-╠ ${prefix}estetik
-╠ ${prefix}ktpmaker
-╚════════
-
-╔════════
-╠══ *RANDOM MENU*
-╠ ${prefix}pinterest
-╠ ${prefix}wallpaper
-╠ ${prefix}quotesanime
-╠ ${prefix}wikimedia
-╚════════
-
-╔════════
-╠══ *OTHER MENU*
-╠ ${prefix}delete
-╠ ${prefix}donasi
-╠ ${prefix}sewa
-╠ ${prefix}sc
-╠ ${prefix}owner
-╠ ${prefix}ping
-╠ ${prefix}menu / ${prefix}help / ${prefix}?
-╚════════
-
-╔════════
-╠══ *DOWNLOAD MENU*
-╠ ${prefix}play
-╠ ${prefix}yts
-╠ ${prefix}ytmp3
-╠ ${prefix}ytmp4
-╚════════
+╒═══ 《 *SesillaDairyBotz* 》 ═══
+├────────────────────
+├≽ *Creator : Sesilla*
+├≽ *Name : ${pushname}*
+├≽ *Prefix : 「 ${prefix} 」*
+├≽ *User : @${m.sender.split("@")[0]}*
+├≽ *Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')} WIB*
+├────────────────────
+╞═══ 《 *ONWER MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}bc*
+├≽ *${prefix}bcgc*
+├≽ *${prefix}join*
+├≽ *${prefix}leave*
+├≽ *${prefix}block*
+├≽ *${prefix}unblock*
+├≽ *${prefix}setppbot*
+├≽ *${prefix}self*
+├≽ *${prefix}public*
+├≽ *${prefix}eval*
+├────────────────────
+╞═══ 《 *GROUP MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}antilink*
+├≽ *${prefix}linkgroup*
+├≽ *${prefix}revoke*
+├≽ *${prefix}kick*
+├≽ *${prefix}add*
+├≽ *${prefix}promote*
+├≽ *${prefix}demote*
+├≽ *${prefix}setname*
+├≽ *${prefix}setdesk*
+├≽ *${prefix}setppgrup*
+├≽ *${prefix}tagall*
+├≽ *${prefix}hidetag*
+├≽ *${prefix}ephemeral*
+├────────────────────
+╞═══ 《 *MAKER MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}sticker*
+├≽ *${prefix}toimg*
+├≽ *${prefix}tourl*
+├≽ *${prefix}tomp3*
+├≽ *${prefix}tovn*
+├≽ *${prefix}toaudio*
+├≽ *${prefix}togif*
+├≽ *${prefix}tovideo*
+├≽ *${prefix}removebg*
+├≽ *${prefix}estetik*
+├≽ *${prefix}ktpmaker*
+├────────────────────
+╞═══ 《 *DOWNLOAD MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}ytmp3*
+├≽ *${prefix}ytmp4*
+├≽ *${prefix}play*
+├≽ *${prefix}yts*
+├────────────────────
+╞═══ 《 *RANDOM MENU* 》 ═══
+├────────────────────
+├≽ *${prefix}pinterest*
+├≽ *${prefix}wallpaper*
+├≽ *${prefix}quotesanime*
+├≽ *${prefix}wikimedia*
+├────────────────────
+╞═══ 《 *THANKS TO* 》 ═══
+├────────────────────
+├≽ *Sesilla/Owner*
+├≽ *Adiwajshing/Baileys-Md*
+╘═══ 《 *SesillaDairyBotz* 》 ═══
   `
   let but = [
-  {urlButton: {displayText: 'Source Code ♨️',url: 'https://github.com/NzrlAfndi/Ichigo-Kurosaki'}}, 
-  {urlButton: {displayText: 'Website 🔗',url: 'https://linktr.ee/nzrlafndi'}}, 
-  {"quickReplyButton": {"displayText": "Donasi 🗂️","id": `donasi`},},
+  {urlButton: {displayText: 'Source Code ♨️',url: 'https://github.com/'}}, 
+  {urlButton: {displayText: 'Website 🔗',url: 'https://linktr.ee/'}}, 
+  {"quickReplyButton": {"displayText": "Menu 🔙","id": `.menu`},},
   {"quickReplyButton": {"displayText": "Owner 👦","id": "owner"},},
   {"quickReplyButton": {"displayText": "Status Bot ⌚","id": `ping`}}
   ]
   ichi.sendButtonImg(m.chat, menu, global.ownerName, global.thumb, but)
   }
   break
-case 'donasi': case 'sewa': case 'sewabot': {
-  let donasi = `Scan QR Above To Donate
-
-Rental Bot Prices :
-💰 10k/week
-💰 25k/month
-💰 100k/year`
-  let but = [{"quickReplyButton": {"displayText": "Owner 👦","id": "owner"}}]
-  ichi.sendButtonImg(m.chat, donasi, global.ownerName, global.donasi, but)
-  }
-  break
 case 'sc': case 'sourcecode': case 'script': {
-  m.reply('*Script Berasal Dari :* https://github.com/nzrlafndi/ichigo-kurosaki\n\nJangan Lupa Bintang nya!')
+  m.reply('_Ecse SesillaMD Rusak!_')
   }
   break
 case 'owner': {
-  ichi.sendContact(m.chat, global.ownerNumber, m)
+  ichi.sendContact(m.chat, global.ownerNumber,fgif)
   }
   break
 case 'ping': case 'botstatus': case 'statusbot': case 'speed': case 'tes': {
@@ -511,14 +498,13 @@ let teks = `*👥 Tag All By Admin*
   for (let mem of participants) {
   teks += `>> @${mem.id.split('@')[0]}\n`
   }
-  ichi.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m })
+  ichi.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted:fgif})
   }
   break
 case 'hidetag': {
   if (!m.isGroup) return m.reply(mess.group)
-  if (!isBotAdmins) return m.reply(mess.botAdmin)
   if (!isAdmins) return m.reply(mess.admin)
-  ichi.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
+  ichi.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted:fgif})
   }
   break
 case 'ephemeral': {
@@ -546,7 +532,7 @@ case 'group': {
   { buttonId: `${command} open`, buttonText: { displayText: 'Open' }, type: 1 },
   { buttonId: `${command} close`, buttonText: { displayText: 'Close' }, type: 1 }
   ]
-  await ichi.sendButtonText(m.chat, buttonsgroup, `Mode ${command} 🕊️`, `Silahkan Klik Button Dibawah, Jika Button Tidak Muncul Ketik ${command} open/close`, m)
+  await ichi.sendButtonText(m.chat, buttonsgroup, `Mode ${command} 🕊️`, `Silahkan Klik Button Dibawah, Jika Button Tidak Muncul Ketik ${command} open/close`, fgif)
   }
   }
   break
@@ -563,7 +549,7 @@ case 'editinfo': {
   { buttonId: `${command} open`, buttonText: { displayText: 'Open' }, type: 1 },
   { buttonId: `${command} close`, buttonText: { displayText: 'Close' }, type: 1 }
   ]
-  await ichi.sendButtonText(m.chat, buttons, `Mode Edit Info 🔥`, `Silahkan Klik Button Dibawah, Jika Button Tidak Muncul Ketik ${command} open/close`, m)
+  await ichi.sendButtonText(m.chat, buttons, `Mode Edit Info 🔥`, `Silahkan Klik Button Dibawah, Jika Button Tidak Muncul Ketik ${command} open/close`,fgif)
   }
   }
   break
@@ -745,7 +731,7 @@ case 'tomp4': case 'tovideo': {
   let { webp2mp4File } = require('../lib/uploader')
   let media = await ichi.downloadAndSaveMediaMessage(quoted)
   let webpToMp4 = await webp2mp4File(media)
-  await ichi.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' } }, { quoted: m })
+  await ichi.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' } }, { quoted:fgif})
   await fs.unlinkSync(media)
   }
   break
@@ -822,7 +808,7 @@ case 'wallpaper': {
   let anu = await wallpaper(text)
   result = anu[Math.floor(Math.random() * anu.length)]
   let buttonswallpaper = [{buttonId: `wallpaper ${text}`, buttonText: {displayText: 'Next Result'}, type: 1}]
-  ichi.sendMessage(m.chat, { image: { url: result.image[0] }, caption: `Source Url : ${result.image[2] || result.image[1] || result.image[0]}`, buttons: buttonswallpaper }, { quoted: m })
+  ichi.sendMessage(m.chat, { image: { url: result.image[0] }, caption: `Source Url : ${result.image[2] || result.image[1] || result.image[0]}`, buttons: buttonswallpaper }, { quoted:fgif})
   }
   break
 case 'quotesanime': {
