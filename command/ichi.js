@@ -90,7 +90,7 @@ const faketxt = {
 	 message: { 
 		"extendedTextMessage": {
                  "text": "SesillaRei",
-                 "title": "AkuSesillanesia",
+                 "title": "SesillaMD",
                  'jpegThumbnail': fs.readFileSync('./media/images.jpeg')
                         }
 	                  } 
@@ -141,10 +141,10 @@ const fvid = {
 	                  }
 
 
-const reply = (texto) => {
-			ichi.sendMessage(m.chat, { text: texto, mentions: [m.sender] }, {	quoted: m })
+const reply = async (teks) => {
+			return await ichi.sendMessage(m.chat,teks,fgif, quoted, m)
 		}
-
+		
 try {
 let chats = global.db.chats[m.chat]
 if (typeof chats !== 'object') global.db.chats[m.chat] = {}
@@ -235,11 +235,11 @@ case 'menu': case 'help': case '?': {
   }
   break
 case 'sc': case 'sourcecode': case 'script': {
-  fakegroup('*Ecse Ini Rusak!*')
+  m.reply('*Ecse Ini Rusak!*')
   }
   break
 case 'owner': {
-  ichi.sendContact(m.chat, global.ownerNumber,fgclink)
+  ichi.sendContact(m.chat, global.ownerNumber,fgif)
   }
   break
 case 'ping': case 'botstatus': case 'statusbot': case 'speed': case 'tes': {
@@ -286,13 +286,13 @@ ${cpus[0].model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type =>
 _CPU Core(s) Usage (${cpus.length} Core CPU)_
 ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}`).join('\n\n')}` : ''}
   `.trim()
-  m.fakegroup(respon)
+  m.reply(respon)
   }
   break
   case 'idff': 
             if (args.length == 0) return m.reply(`Example: ${prefix + command} 570098876`)
             var { data } = await axios.get(`https://api.lolhuman.xyz/api/freefire/${args[0]}?apikey=3f56f3c5799ae89c6d0f9c96`)
-            fakegroup(data.result)
+            m.reply(data.result)
             break
             case 'tourl': {
   m.reply(mess.wait)
