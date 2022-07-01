@@ -45,7 +45,7 @@ if (global.db) global.db = {
 chats: {},
 ...(global.db || {})
 }
-
+fake = 'Saya jlelkk tapi jelekan kamuu'
 //Module Exports
 module.exports = ichi = async(ichi, m, chatUpdate, store) => {
 try {
@@ -80,11 +80,37 @@ const isAdmins = m.isGroup ? groupOwner.includes(m.sender) || groupAdmins.includ
 const mentionUser = [...new Set([...(m.mentionedJid || []), ...(m.quoted ? [m.quoted.sender] : [])])]
 const isNumber = x => typeof x === 'number' && !isNaN(x)
 const fgif = {key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: "status@broadcast" } : {})},message: {"videoMessage": { "title":`${moment.tz('Asia/Jakarta').format('HH:mm:ss')}`, "h": `Hmm`,'seconds': '359996400', 'gifPlayback': 'true', 'caption': `SesillaDairyMD`, 'jpegThumbnail': fs.readFileSync('./media/images.jpeg')}}}
-
-const reply = (texto) => {
-			ichi.sendMessage(m.chat, { text: texto, mentions: [m.sender] }, {	quoted: m })
-		}
-
+const fakestatus = (teks) => {
+            ichi.sendMessage(from, teks, text, {
+                quoted: {
+                    key: {
+                        fromMe: false,
+                        participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})
+                    },
+                    message: {
+                        "imageMessage": {
+                            "url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
+                            "mimetype": "image/jpeg",
+                            "caption": fake,
+                            "fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
+                            "fileLength": "28777",
+                            "height": 1080,
+                            "width": 1079,
+                            "mediaKey": "vXmRR7ZUeDWjXy5iQk17TrowBzuwRya0errAFnXxbGc=",
+                            "fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
+                            "directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
+                            "mediaKeyTimestamp": "1610993486",
+                            "jpegThumbnail": fs.readFileSync('./media/images.jpeg'),
+                            "scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
+                        }
+                    }
+                }
+            })
+        }
+const reply = (teks) => {
+            ichi.sendMessage(from, teks, text, {quoted: m })
+        }
+            
 try {
 let chats = global.db.chats[m.chat]
 if (typeof chats !== 'object') global.db.chats[m.chat] = {}
@@ -284,7 +310,30 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
   m.reply(respon)
   }
   break
+case 'listdomain':
+const listdomainku = 
+`*List Domain NusaServerHosting Bot*
 
+*1.ffeventkulgar.com ❌*
+*2.chipsjagoid.com ❌*
+*3.eventmlid22.com ✅*
+*4.hdichipsnew22.xyz ✅*
+*5.eventnew88.my.id ❌*
+*6.pubgnewevent22.com ✅*
+*7.cratenew22.com ❌*
+*8.kulgarff.xyz ✅*
+*9.gruphotnew1.com ✅*
+*10.chathot14.my.id ✅*
+*11.pubg22.org ❌*
+`
+fakestatus(listdomainku)
+break
+case 'isgd':
+                    if (args.length == 0) return fakestatus(` Use Example: ${prefix + command} https://delnichi.xyz`)
+                    ini_url = args[0]
+                    get_result = await fetchJson(`https://api.dapuhy.xyz/api/others/isgd?url=${ini_url}&apikey=jteYUyARKd`)
+                    fakestatus(get_result.result)
+                    break
 //Owner Menu
 case 'bcgc': case 'bcgroup': {
   if (!isOwner && !m.key.fromMe) return m.reply(mess.botOwner)
